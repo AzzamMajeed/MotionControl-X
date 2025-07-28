@@ -127,8 +127,8 @@ When the robot detects an object closer than 10 cm, it:
 ## 🖼️ Project Image<img
 
 
+<img width="1249" height="684" alt="لقطة شاشة 2025-07-28 143141" src="https://github.com/user-attachments/assets/f6a9b6f6-a0e8-4ad0-b0fe-f93148d165d5" />
 
-<img width="1280" height="488" alt="Brilliant Migelo" src="https://github.com/user-attachments/assets/1539930d-d5c4-48fa-94ac-6f4177e6864f" />
 
 ## 🧠 Code Explanation
 
