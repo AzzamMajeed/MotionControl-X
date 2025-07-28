@@ -1,87 +1,80 @@
-# MotionControl-X
-# 🤖 Arduino Robot Project – Motor Control and Obstacle Avoidance
+# 🤖 Arduino Smart Robot – Movement & Obstacle Detection
 
-This project includes two main tasks using Arduino and Tinkercad:
+## 📌 Project Overview
+
+This Arduino project combines **two tasks**:
+
+- **Task 1**: Control 4 DC motors to move:
+  - Forward for 30 seconds  
+  - Backward for 1 minute  
+  - Alternate between right and left turns continuously<img width="1280" height="488" alt="Sizzling Crift-Jaban" src="https://github.com/user-attachments/assets/e1906bc1-785b-4c26-870e-e8df3dee0d7f" />
+
+
+- **Task 2**: Use a **Servo motor** with an **Ultrasonic sensor** to:
+  - Detect objects within 10 cm  
+  - Stop all motors  
+  - Rotate the servo  
+  - Move backward briefly  
+  - Resume motion
+
+---
+<img width="1280" height="488" alt="Brilliant Migelo" src="https://github.com/user-attachments/assets/fc4c6a8c-dd7b-4e30-9ea8-5f7f6dc49ed1" />
+
+## 🧰 Components Used
+
+| Component              | Quantity |
+|------------------------|----------|
+| Arduino UNO            | 1        |
+| L293D Motor Driver IC  | 1        |
+| DC Motors              | 4        |
+| Ultrasonic Sensor (HC-SR04) | 1    |
+| Servo Motor            | 1        |
+| Breadboard + Wires     | As needed |
+| Power Supply (e.g., 9V) | 1       |
 
 ---
 
-## ✅ Task 1: Motor Control Sequence
+## ⚡ Circuit Wiring
 
-The robot performs:<img width="1280" height="488" alt="Sizzling Crift-Jaban" src="https://github.com/user-attachments/assets/3960b707-f056-49fd-a6f6-a4b24da978cc" />
+### 🔌 DC Motor Connections (via L293D):
 
-- Forward movement for 30 seconds  
-- Backward movement for 1 minute  
-- Alternating between right and left
+| L293D Pin | Connection         |
+|-----------|--------------------|
+| 1         | Arduino 10 (ENA)   |
+| 2         | Arduino 9 (IN1)    |
+| 3         | Motor A (+)        |
+| 4, 5      | GND                |
+| 6         | Motor A (–)        |
+| 7         | Arduino 8 (IN2)    |
+| 8         | VCC (e.g., 9V)     |
+| 9         | Arduino 5 (ENB)    |
+| 10        | Arduino 6 (IN3)    |
+| 11        | Motor B (+)        |
+| 12, 13    | GND                |
+| 14        | Motor B (–)        |
+| 15        | Arduino 7 (IN4)    |
+| 16        | 5V (Arduino)       |
 
-### Components:
-- 4 × DC Motors  
-- L293D Motor Driver  
-- Arduino Uno  
-- Breadboard + jumper wires
+### 📏 Ultrasonic Sensor:
 
----
+| Sensor Pin | Arduino Pin |
+|------------|-------------|
+| VCC        | 5V          |
+| GND        | GND         |
+| Trig       | 12          |
+| Echo       | 11          |
 
-## ✅ Task 2: Obstacle Detection and Reaction
- <img width="1280" height="488" alt="Brilliant Migelo" src="https://github.com/user-attachments/assets/4274e3da-b3c5-4fa2-83f4-4ad7541f1c91" />
-The robot detects obstacles using an ultrasonic sensor and reacts by:
-- Stopping all movement  
-- Rotating a servo motor 
+### 🔄 Servo Motor:
 
-- Reversing for 2 seconds  
-- Resuming normal operation when the path is clear
-
-### Additional Components:
-- 1 × Ultrasonic Sensor (3-pin version)  
-- 1 × Servo Motor
-
----
-
-## 🧩 Wiring Summary
-
-### L293D to Arduino:
-
-| L293D Pin | Arduino Pin | Function             |
-|-----------|-------------|----------------------|
-| 1 (EN1)   | 10          | Right motor enable   |
-| 2 (IN1)   | 9           | Right motor direction |
-| 7 (IN2)   | 8           | Right motor direction |
-| 9 (EN2)   | 5           | Left motor enable    |
-|10 (IN3)   | 6           | Left motor direction |
-|15 (IN4)   | 7           | Left motor direction |
-|16 (Vcc1)  | 5V          | Logic power          |
-| 8 (Vcc2)  | 5V or 9V    | Motor power          |
-| 4,5,12,13 | GND         | Ground               |
-
-### Ultrasonic Sensor:
-
-| Pin   | Arduino |
-|-------|---------|
-| VCC   | 5V      |
-| GND   | GND     |
-| TRIG  | 12      |
-| ECHO  | 11      |
-
-### Servo Motor:
-
-| Wire   | Arduino |
-|--------|---------|
-| VCC    | 5V      |
-| GND    | GND     |
-| Signal | 3       |
+| Servo Wire | Arduino Pin |
+|------------|-------------|
+| Signal     | 3           |
+| VCC        | 5V          |
+| GND        | GND         |
 
 ---
 
-## 🧠 Features Implemented
-
-- L293D driver with dual motor control  
-- Obstacle detection via ultrasonic sensor  
-- Servo rotation upon obstacle detection  
-- Directional control using digital outputs  
-- Movement sequencing with `delay()` and condition checks
-
----
-
-## 💻 Arduino Code (Combined)
+## 🧠 Code
 
 ```cpp
 #include <Servo.h>
@@ -94,14 +87,15 @@ The robot detects obstacles using an ultrasonic sensor and reacts by:
 #define ENA 10
 #define ENB 5
 
-// Ultrasonic pins
+// Ultrasonic sensor pins
 #define trigPin 12
 #define echoPin 11
 
+// Servo
 Servo myServo;
 
 void setup() {
-  // Set motor pins
+  // Motor setup
   pinMode(IN1, OUTPUT);
   pinMode(IN2, OUTPUT);
   pinMode(IN3, OUTPUT);
@@ -109,47 +103,46 @@ void setup() {
   pinMode(ENA, OUTPUT);
   pinMode(ENB, OUTPUT);
 
-  // Set ultrasonic pins
+  // Sensor and Servo setup
   pinMode(trigPin, OUTPUT);
   pinMode(echoPin, INPUT);
-
-  // Attach servo
   myServo.attach(3);
-  myServo.write(90); // Neutral position
+  myServo.write(90);  // Neutral position
 
-  // TASK 1: Movement Sequence
+  // --- Task 1: Movement Sequence ---
   moveForward();
-  delay(30000); // 30 seconds
+  delay(30000);  // Forward 30 seconds
 
   moveBackward();
-  delay(60000); // 1 minute
-
-  // TASK 2: Loop with obstacle detection
+  delay(60000);  // Backward 1 minute
 }
 
 void loop() {
-  // Alternate left and right
+  // Alternate turning
   turnRight();
   delay(1000);
   turnLeft();
   delay(1000);
 
+  // --- Task 2: Obstacle Detection ---
   long distance = readDistanceCM();
   if (distance > 0 && distance < 10) {
     stopMotors();
-    myServo.write(0);      // Turn servo
+    myServo.write(0);    // Servo moves to one side
     delay(1000);
-    moveBackward();        // Move backward
+    moveBackward();
     delay(2000);
     stopMotors();
-    myServo.write(90);     // Reset servo
+    myServo.write(90);   // Back to center
   } else {
-    moveForward();         // Resume forward
-    myServo.write(90);
+    moveForward();  // Keep moving forward
   }
 }
 
-// Movement functions
+// -------------------------
+// Movement Functions
+// -------------------------
+
 void moveForward() {
   digitalWrite(IN1, HIGH);
   digitalWrite(IN2, LOW);
@@ -189,7 +182,10 @@ void stopMotors() {
   digitalWrite(IN4, LOW);
 }
 
-// Ultrasonic function
+// -------------------------
+// Ultrasonic Sensor Reading
+// -------------------------
+
 long readDistanceCM() {
   digitalWrite(trigPin, LOW);
   delayMicroseconds(2);
@@ -198,6 +194,5 @@ long readDistanceCM() {
   digitalWrite(trigPin, LOW);
 
   long duration = pulseIn(echoPin, HIGH);
-  long distance = duration * 0.034 / 2;
-  return distance;
+  return duration * 0.034 / 2;
 }
