@@ -127,11 +127,10 @@ When the robot detects an object closer than 10 cm, it:
 ## 🖼️ Project Image<img
 
 
-> 📸 width="1280" height="488" alt="Brilliant Migelo" src="https://github.com/user-attachments/assets/68fbb32a-9850-4408-a053-1eda8e78ab1a" />
 
 
+<img width="1280" height="488" alt="Brilliant Migelo" src="https://github.com/user-attachments/assets/18df5d06-b901-4517-b467-6a5986eb0d58" />
 ---
-
 ## 🧠 Code Explanation
 
 - `getDistance()` reads from the ultrasonic sensor.
