@@ -124,10 +124,11 @@ When the robot detects an object closer than 10 cm, it:
 
 ---
 
-## 🖼️ Project Image<img width="1280" height="488" alt="Brilliant Migelo" src="https://github.com/user-attachments/assets/68fbb32a-9850-4408-a053-1eda8e78ab1a" />
+## 🖼️ Project Image<img
 
 
-> 📸 Add a screenshot or diagram of your full Tinkercad wiring here.
+> 📸 width="1280" height="488" alt="Brilliant Migelo" src="https://github.com/user-attachments/assets/68fbb32a-9850-4408-a053-1eda8e78ab1a" />
+
 
 ---
 
